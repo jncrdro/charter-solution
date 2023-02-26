@@ -25,12 +25,13 @@ const getAllTransactions = (name) => {
   let monthlyPoints = 0;
   let number = randomNumber();
   let date = "";
+  let data = []
   let userData = {
     name: name,
     transactionData: [],
     transactionByMonth: {},
-    monthlyPoints: monthlyPoints,
-  };
+    totalPoints: monthlyPoints,
+};
   for (let i = 0; i < 90; i++) {
     date = moment()
       .startOf("month")
@@ -70,11 +71,31 @@ const getAllTransactions = (name) => {
     let points = userData.transactionData[i].amount.points;
     monthlyPoints += points;
   }
-  userData.monthlyPoints = monthlyPoints;
-  console.log(userData)
+  userData.totalPoints = monthlyPoints;
+  
+  const { transactionByMonth } = userData;
+  const transactionsByMonth = Object.entries(transactionByMonth).reduce((acc, [month, transactions]) => {
+    let total = 0;
+    let currentMonth = {}
+    currentMonth[month] = total;
+    for(let i = 0; i < transactions.length; i++){
+      if (!acc[month]){
+        total += transactions[i].amount.points;
+        currentMonth[month] = total;
+      } else {
+        currentMonth[month] += transactions[i].amount.points;
+      }
+    }
+    acc.push(currentMonth);
+    return acc;
+  }, []);
+
+  userData["pointsByMonth"] = transactionsByMonth;
+  data.push(userData)
+
 
   return new Promise((resolve, reject) => {
-    resolve(userData, Math.random() * 2000);
+    resolve(data, Math.random() * 2000);
   });
 };
 

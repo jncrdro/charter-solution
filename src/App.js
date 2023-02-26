@@ -1,11 +1,11 @@
 import "./App.css";
-import Form from "./Form";
+import UserInfo from "./components/UserInfo/UserInfo";
 
 function App() {
   return (
     <main>
       <header>Transaction data</header>
-      <Form />
+      <UserInfo />
     </main>
   );
 
