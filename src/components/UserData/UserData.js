@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useGenerateData } from "../../tools/generateData";
 import "./UserData.css";
 import getAllTransactions from "../../api/api";
 
@@ -15,12 +14,10 @@ const UserData = ({ currentName }) => {
   
   let displayData;
   if (data.length) {
-    console.log(data[0])
     const {
       name,
       pointsByMonth,
       totalPoints,
-      transactionByMonth,
       transactionData,
     } = data[0];
     displayData = (
